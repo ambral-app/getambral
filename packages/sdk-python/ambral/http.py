@@ -3,7 +3,7 @@
 import urllib.error
 import urllib.request
 
-from .errors import AgentBurnError
+from .errors import AmbralError
 
 
 class HttpResponse:
@@ -14,7 +14,7 @@ class HttpResponse:
 
 class UrllibHttpClient:
     """Dependency-free HTTP client. Returns an HttpResponse for any HTTP
-    status (including 4xx/5xx); raises AgentBurnError only on network
+    status (including 4xx/5xx); raises AmbralError only on network
     failures, which the client treats as retryable."""
 
     def __init__(self, timeout: float = 10.0):
@@ -30,6 +30,6 @@ class UrllibHttpClient:
         except urllib.error.HTTPError as e:
             return HttpResponse(e.code, e.read().decode("utf-8"))
         except urllib.error.URLError as e:
-            raise AgentBurnError(f"network error: {e.reason}") from e
+            raise AmbralError(f"network error: {e.reason}") from e
         except TimeoutError as e:
-            raise AgentBurnError("request timed out") from e
+            raise AmbralError("request timed out") from e

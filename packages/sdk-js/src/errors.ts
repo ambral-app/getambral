@@ -3,9 +3,9 @@
  * responses) that should NOT be retried. Network errors and 429/5xx are
  * retried automatically by the client.
  */
-export class AgentBurnError extends Error {
+export class AmbralError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "AgentBurnError";
+    this.name = "AmbralError";
   }
 }

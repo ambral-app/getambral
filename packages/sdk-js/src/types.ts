@@ -1,5 +1,5 @@
 /**
- * A usage event, matching the canonical AgentBurn event spec
+ * A usage event, matching the canonical Ambral event spec
  * (docs/events.md). Only `provider` is required — everything else is
  * optional and defaults server-side.
  */
@@ -39,9 +39,9 @@ export interface TrackResult {
   error?: string;
 }
 
-export interface AgentBurnOptions {
+export interface AmbralOptions {
   apiKey: string;
-  /** Defaults to https://agentburn.dev. Point at a self-hosted instance to use it there. */
+  /** Defaults to https://ambral.dev. Point at a self-hosted instance to use it there. */
   baseUrl?: string;
   /** Retry count for network errors and 429/5xx. Default 3. */
   retries?: number;

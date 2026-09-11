@@ -1,5 +1,5 @@
-"""Errors raised by the AgentBurn SDK."""
+"""Errors raised by the Ambral SDK."""
 
 
-class AgentBurnError(RuntimeError):
+class AmbralError(RuntimeError):
     """Deterministic failure (client error, malformed response). Not retried."""

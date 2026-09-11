@@ -1,8 +1,8 @@
-export { AgentBurn } from "./client";
-export { AgentBurnError } from "./errors";
+export { Ambral } from "./client";
+export { AmbralError } from "./errors";
 export { idempotencyKey } from "./idempotency";
 export type {
-  AgentBurnOptions,
+  AmbralOptions,
   PricingStatus,
   TrackResult,
   UsageEvent,

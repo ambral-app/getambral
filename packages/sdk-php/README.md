@@ -1,20 +1,20 @@
-# agentburn/sdk (PHP)
+# ambral/sdk (PHP)
 
-The AgentBurn PHP SDK. Send usage events and read back itemized,
+The Ambral PHP SDK. Send usage events and read back itemized,
 explainable costs. Requires PHP 8.1+.
 
 ```bash
-composer require agentburn/sdk
+composer require ambral/sdk
 ```
 
 ## Usage
 
 ```php
-use AgentBurn\AgentBurn;
+use Ambral\Ambral;
 
-$agentburn = new AgentBurn(apiKey: getenv('AGENTBURN_KEY'));
+$ambral = new Ambral(apiKey: getenv('AMBRAL_KEY'));
 
-$result = $agentburn->track([
+$result = $ambral->track([
     'provider' => 'openai',
     'model' => 'gpt-4o',
     'inputTokens' => 1_200_000,
@@ -28,7 +28,7 @@ $result = $agentburn->track([
 Batch:
 
 ```php
-$results = $agentburn->trackBatch([
+$results = $ambral->trackBatch([
     ['provider' => 'openai', 'model' => 'gpt-4o', 'inputTokens' => 1000, 'outputTokens' => 200],
     ['provider' => 'anthropic', 'model' => 'claude-sonnet-4', 'inputTokens' => 500, 'outputTokens' => 100],
 ]);
@@ -40,12 +40,12 @@ Every event carries an `idempotency_key`. Omit it and the SDK generates one;
 pass your own to make retries safe:
 
 ```php
-use AgentBurn\Idempotency;
+use Ambral\Idempotency;
 
 $key = Idempotency::key();
-$agentburn->track(['provider' => 'openai', 'model' => 'gpt-4o', 'idempotencyKey' => $key]);
+$ambral->track(['provider' => 'openai', 'model' => 'gpt-4o', 'idempotencyKey' => $key]);
 // retry the same logical operation safely:
-$agentburn->track(['provider' => 'openai', 'model' => 'gpt-4o', 'idempotencyKey' => $key]);
+$ambral->track(['provider' => 'openai', 'model' => 'gpt-4o', 'idempotencyKey' => $key]);
 ```
 
 ## Configuration
@@ -53,7 +53,7 @@ $agentburn->track(['provider' => 'openai', 'model' => 'gpt-4o', 'idempotencyKey'
 | Argument | Default | Notes |
 |---|---|---|
 | `apiKey` | — | Required. Project API key from the dashboard. |
-| `baseUrl` | `https://agentburn.dev` | Point at a self-hosted instance. |
+| `baseUrl` | `https://ambral.dev` | Point at a self-hosted instance. |
 | `retries` | `3` | Retries network errors and 429/5xx with backoff. |
 | `http` | `CurlHttpClient` | Inject a transport for testing / custom TLS. |
 
@@ -61,7 +61,7 @@ $agentburn->track(['provider' => 'openai', 'model' => 'gpt-4o', 'idempotencyKey'
 
 - Cost is **server-computed** — you never send a price.
 - Unknown models are accepted (`pricingStatus: "unpriced"`), never rejected.
-- Client errors throw `AgentBurnException`; rate limits and server errors retry.
+- Client errors throw `AmbralException`; rate limits and server errors retry.
 - No prompts or completions are ever sent — only metadata and token counts.
 
 See the [event spec](../../docs/events.md) for the full field reference.

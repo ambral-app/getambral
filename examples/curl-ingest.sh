@@ -2,11 +2,11 @@
 # Ingest one event into AgentBurn Cloud.
 set -euo pipefail
 
-AGENTBURN_KEY="${AGENTBURN_KEY:?set AGENTBURN_KEY to a project API key}"
+AMBRAL_KEY="${AMBRAL_KEY:?set AMBRAL_KEY to a project API key}"
 URL="${AGENTBURN_URL:-https://agentburn.dev}"
 
 curl -sS -X POST "$URL/api/ingest" \
-  -H "Authorization: Bearer $AGENTBURN_KEY" \
+  -H "Authorization: Bearer $AMBRAL_KEY" \
   -H "Content-Type: application/json" \
   -d @examples/ingest-event.json
 echo

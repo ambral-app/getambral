@@ -1,12 +1,12 @@
 # Contributing
 
-Thanks for caring about AgentBurn.
+Thanks for caring about Ambral.
 
 ## Getting started
 
 ```bash
-git clone https://github.com/agentburn-app/agentburn.git
-cd agentburn
+git clone https://github.com/ambral-app/getambral.git
+cd ambral
 npm install
 npm test        # core test suite (vitest)
 npm run typecheck

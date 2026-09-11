@@ -13,8 +13,8 @@ Content-Type: application/json
 Single event or a JSON array (batch, up to 1,000).
 
 ```bash
-curl -X POST https://agentburn.dev/api/ingest \
-  -H "Authorization: Bearer $AGENTBURN_KEY" \
+curl -X POST https://ambral.dev/api/ingest \
+  -H "Authorization: Bearer $AMBRAL_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "idempotency_key": "op-0001",

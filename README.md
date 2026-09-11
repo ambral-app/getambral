@@ -1,14 +1,14 @@
-# AgentBurn
+# Ambral
 
 **Know what every agent costs. Know why. Know what it accomplished.**
 
-AgentBurn is the economic intelligence layer for AI-powered software. It
+Ambral is the economic intelligence layer for AI-powered software. It
 measures what your agents, models, tools, and workflows consume and cost —
 then helps you understand and optimize that spend. Every number is
 server-computed from versioned, verified pricing and explained down to the
 arithmetic.
 
-This repository is the **open-source core** of AgentBurn:
+This repository is the **open-source core** of Ambral:
 
 - the canonical **event schema**
 - the deterministic **cost engine** (itemized, versioned, explainable)
@@ -16,7 +16,7 @@ This repository is the **open-source core** of AgentBurn:
 - **budgets** and **forecast** math
 - **usage aggregation**
 
-[agentburn.dev](https://agentburn.dev) is the **commercial product** built on
+[ambral.dev](https://ambral.dev) is the **commercial product** built on
 top of it: managed hosting, managed pricing intelligence (automated
 provider-price change detection), long retention, forecasting, anomaly
 detection, team collaboration, and enterprise governance.
@@ -43,8 +43,8 @@ same inputs, same cost, every time.
 ## Quick start
 
 ```bash
-git clone https://github.com/agentburn-app/agentburn.git
-cd agentburn
+git clone https://github.com/ambral-app/getambral.git
+cd ambral
 npm install
 npm test          # run the core + SDK test suites
 ```
@@ -52,10 +52,10 @@ npm test          # run the core + SDK test suites
 Send your first event with the SDK:
 
 ```ts
-import { AgentBurn } from "@agentburn/sdk";
+import { Ambral } from "@ambral/sdk";
 
-const agentburn = new AgentBurn({ apiKey: process.env.AGENTBURN_KEY });
-const { cost, explanation } = await agentburn.track({
+const ambral = new Ambral({ apiKey: process.env.AMBRAL_KEY });
+const { cost, explanation } = await ambral.track({
   provider: "openai",
   model: "gpt-4o",
   inputTokens: 1_200_000,
@@ -67,7 +67,7 @@ console.log(cost, explanation);
 The heart of it — turn raw usage into an explainable cost:
 
 ```ts
-import { computeCost, explainCost } from "@agentburn/core";
+import { computeCost, explainCost } from "@ambral/core";
 
 const breakdown = computeCost(
   { inputTokens: 1_200_000, outputTokens: 42_000, cachedInputTokens: 0, reasoningTokens: 0 },
@@ -80,13 +80,13 @@ console.log(explainCost(breakdown));
 //   1.2M input × $2.50 + 42K output × $10.00 = $3.42
 ```
 
-If AgentBurn tells you a number, it can always show you the arithmetic.
+If Ambral tells you a number, it can always show you the arithmetic.
 
 ---
 
-## Open core vs. AgentBurn Cloud
+## Open core vs. Ambral Cloud
 
-| | Open source (this repo) | AgentBurn Cloud |
+| | Open source (this repo) | Ambral Cloud |
 |---|---|---|
 | Event spec | ✅ | ✅ |
 | Ingestion engine | ✅ | ✅ (managed) |
@@ -107,16 +107,16 @@ service are commercial.
 
 ## Why pricing is versioned
 
-Provider prices change constantly. AgentBurn never silently re-prices your
+Provider prices change constantly. Ambral never silently re-prices your
 history: every cost is calculated against the **pricing version** that was
 in effect at the time, and the version is recorded on every event. See
 [docs/pricing.md](docs/pricing.md).
 
 ## Links
 
-- **Try AgentBurn Cloud** — [agentburn.dev](https://agentburn.dev)
-- **Live model pricing** — [agentburn.dev/pricing](https://agentburn.dev/pricing)
-- **Docs** — [agentburn.dev/docs](https://agentburn.dev/docs)
+- **Try Ambral Cloud** — [ambral.dev](https://ambral.dev)
+- **Live model pricing** — [ambral.dev/pricing](https://ambral.dev/pricing)
+- **Docs** — [ambral.dev/docs](https://ambral.dev/docs)
 - **Event spec** — [docs/events.md](docs/events.md)
 - **Pricing & explainability** — [docs/pricing.md](docs/pricing.md)
 - **Self-hosting** — [docs/self-hosting.md](docs/self-hosting.md)

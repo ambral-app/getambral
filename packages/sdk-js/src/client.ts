@@ -1,8 +1,8 @@
-import { AgentBurnError } from "./errors";
+import { AmbralError } from "./errors";
 import { idempotencyKey } from "./idempotency";
-import type { AgentBurnOptions, TrackResult, UsageEvent } from "./types";
+import type { AmbralOptions, TrackResult, UsageEvent } from "./types";
 
-const DEFAULT_BASE_URL = "https://agentburn.dev";
+const DEFAULT_BASE_URL = "https://ambral.dev";
 
 interface IngestResponse {
   ingested?: number;
@@ -10,15 +10,15 @@ interface IngestResponse {
   error?: string;
 }
 
-export class AgentBurn {
+export class Ambral {
   private readonly apiKey: string;
   private readonly baseUrl: string;
   private readonly retries: number;
   private readonly timeoutMs: number;
 
-  constructor(options: AgentBurnOptions) {
+  constructor(options: AmbralOptions) {
     if (!options.apiKey) {
-      throw new AgentBurnError("apiKey is required");
+      throw new AmbralError("apiKey is required");
     }
     this.apiKey = options.apiKey;
     this.baseUrl = (options.baseUrl ?? DEFAULT_BASE_URL).replace(/\/+$/, "");
@@ -31,10 +31,10 @@ export class AgentBurn {
     const results = await this.ingest([event]);
     const first = results[0];
     if (!first) {
-      throw new AgentBurnError("empty ingest response");
+      throw new AmbralError("empty ingest response");
     }
     if (first.error) {
-      throw new AgentBurnError(first.error);
+      throw new AmbralError(first.error);
     }
     return first;
   }
@@ -61,7 +61,7 @@ export class AgentBurn {
 
       if (response.status === 429 || response.status >= 500) {
         if (attempt >= this.retries) {
-          throw new AgentBurnError(`HTTP ${response.status} after ${this.retries} retries`);
+          throw new AmbralError(`HTTP ${response.status} after ${this.retries} retries`);
         }
         await this.backoff(attempt);
         continue;
@@ -71,11 +71,11 @@ export class AgentBurn {
       try {
         data = (await response.json()) as IngestResponse;
       } catch {
-        throw new AgentBurnError(`invalid JSON in ${response.status} response`);
+        throw new AmbralError(`invalid JSON in ${response.status} response`);
       }
 
       if (!response.ok) {
-        throw new AgentBurnError(data.error ?? `HTTP ${response.status}`);
+        throw new AmbralError(data.error ?? `HTTP ${response.status}`);
       }
 
       return data.results ?? [];

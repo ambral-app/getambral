@@ -1,11 +1,11 @@
 # Security
 
-AgentBurn measures spending. Trust is the product. We take reports
+Ambral measures spending. Trust is the product. We take reports
 seriously.
 
 ## Reporting a vulnerability
 
-Do **not** open a public issue. Email `security@agentburn.dev`. Include a
+Do **not** open a public issue. Email `security@ambral.dev`. Include a
 clear description, reproduction steps, and impact. We'll acknowledge within
 48 hours and coordinate a fix + disclosure.
 
