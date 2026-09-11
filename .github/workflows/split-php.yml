@@ -1,0 +1,23 @@
+name: Split PHP SDK
+on:
+  push:
+    branches: [master]
+    paths: ["packages/sdk-php/**"]
+  workflow_dispatch:
+
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Split and push to ambral-sdk-php
+        env:
+          PAT: ${{ secrets.SUBTREE_PAT }}
+        run: |
+          git config user.name "ambral-app"
+          git config user.email "ambral-app@users.noreply.github.com"
+          git subtree split --prefix=packages/sdk-php HEAD -b split-tmp
+          git push https://x-access-token:${PAT}@github.com/ambral-app/ambral-sdk-php.git split-tmp:main --force
+          git branch -D split-tmp
