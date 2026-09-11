@@ -1,5 +1,9 @@
 # ambral-sdk (Python)
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ambral-app/getambral/master/packages/sdk-python/logo.png" alt="Ambral" width="200"/>
+</p>
+
 The Ambral Python SDK. Send usage events and read back itemized,
 explainable costs. Python 3.8+, no third-party dependencies (stdlib only).
 
