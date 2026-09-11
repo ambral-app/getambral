@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AgentBurn;
+namespace Ambral;
 
 final class Idempotency
 {

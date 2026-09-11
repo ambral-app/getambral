@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AgentBurn;
+namespace Ambral;
 
 /** A minimal HTTP response value object. */
 final class HttpResponse
@@ -30,7 +30,7 @@ final class CurlHttpClient implements HttpClient
     {
         $ch = curl_init($url);
         if ($ch === false) {
-            throw new AgentBurnException('curl_init failed');
+            throw new AmbralException('curl_init failed');
         }
 
         $headerLines = [];
@@ -50,7 +50,7 @@ final class CurlHttpClient implements HttpClient
         if ($responseBody === false) {
             $error = curl_error($ch);
             curl_close($ch);
-            throw new AgentBurnException("curl error: {$error}");
+            throw new AmbralException("curl error: {$error}");
         }
 
         $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);

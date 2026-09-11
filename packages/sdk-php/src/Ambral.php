@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace AgentBurn;
+namespace Ambral;
 
 /**
- * The AgentBurn PHP client. Send usage events and read back itemized,
+ * The Ambral PHP client. Send usage events and read back itemized,
  * explainable costs. Cost is server-computed — you never send a price.
  */
-final class AgentBurn
+final class Ambral
 {
-    private const DEFAULT_BASE_URL = 'https://agentburn.dev';
+    private const DEFAULT_BASE_URL = 'https://ambral.dev';
 
     public function __construct(
         private readonly string $apiKey,
@@ -19,7 +19,7 @@ final class AgentBurn
         private readonly ?HttpClient $http = null,
     ) {
         if ($apiKey === '') {
-            throw new AgentBurnException('apiKey is required');
+            throw new AmbralException('apiKey is required');
         }
     }
 
@@ -34,10 +34,10 @@ final class AgentBurn
         $results = $this->ingest([$event]);
         $first = $results[0] ?? null;
         if ($first === null) {
-            throw new AgentBurnException('empty ingest response');
+            throw new AmbralException('empty ingest response');
         }
         if (!empty($first['error'])) {
-            throw new AgentBurnException((string) $first['error']);
+            throw new AmbralException((string) $first['error']);
         }
 
         return $first;
@@ -76,7 +76,7 @@ final class AgentBurn
         for ($attempt = 0; ; $attempt++) {
             try {
                 $response = $client->post($url, $headers, $json);
-            } catch (AgentBurnException $e) {
+            } catch (AmbralException $e) {
                 if ($attempt >= $this->retries) {
                     throw $e;
                 }
@@ -86,7 +86,7 @@ final class AgentBurn
 
             if ($response->status === 429 || $response->status >= 500) {
                 if ($attempt >= $this->retries) {
-                    throw new AgentBurnException("HTTP {$response->status} after {$this->retries} retries");
+                    throw new AmbralException("HTTP {$response->status} after {$this->retries} retries");
                 }
                 $this->backoff($attempt);
                 continue;
@@ -94,12 +94,12 @@ final class AgentBurn
 
             $data = json_decode($response->body, true);
             if (!is_array($data)) {
-                throw new AgentBurnException("invalid JSON in {$response->status} response");
+                throw new AmbralException("invalid JSON in {$response->status} response");
             }
 
             if ($response->status >= 400) {
                 $message = $data['error'] ?? "HTTP {$response->status}";
-                throw new AgentBurnException((string) $message);
+                throw new AmbralException((string) $message);
             }
 
             return $data['results'] ?? [];
